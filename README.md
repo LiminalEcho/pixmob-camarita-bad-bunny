@@ -162,7 +162,7 @@ El loop autónomo que ves después del concierto es pre-programado por los trans
 **irplus se cierra solo en Xiaomi** → Ajustes > Apps > irplus > Batería > Sin restricciones
 
 ---
-
+iOS is not supported with this method. iPhone has no built-in IR blaster. A possible workaround exists using an IR blaster dongle but has not been tested with the Bad Bunny badge.
 ---
 
 ## Credits / Créditos
@@ -172,5 +172,7 @@ El loop autónomo que ves después del concierto es pre-programado por los trans
 - Real-world testing / Pruebas reales: [@YOUR_GITHUB_USERNAME](https://github.com/LiminalEcho)
 - PIXMOD Discord: `discord.gg/UYqTjC7xp3`
 ---
+
+
 
 *#dtmf #badbunny #camaritabadbunny #pixmob #debitirarmasfotos #irplus #pixmod*
