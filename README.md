@@ -169,15 +169,8 @@ El loop autónomo que ves después del concierto es pre-programado por los trans
 
 - Color codes / Códigos de colores: [danielweidman/pixmob-ir-reverse-engineering](https://github.com/danielweidman/pixmob-ir-reverse-engineering)
 - PROGRAM button: community irplus files for Taylor Swift EOC badges
-- Real-world testing / Pruebas reales: [@YOUR_GITHUB_USERNAME](https://github.com/YOUR_GITHUB_USERNAME)
+- Real-world testing / Pruebas reales: [@YOUR_GITHUB_USERNAME](https://github.com/LiminalEcho)
 - PIXMOD Discord: `discord.gg/UYqTjC7xp3`
-
-## Contributing / Contribuir
-
-If you have captured IR signals from a Bad Bunny concert or have working codes for other badge models, open a pull request or issue.
-
-Si capturaste señales IR del concierto de Bad Bunny o tienes códigos que funcionan para otros modelos, abre un pull request o issue.
-
 ---
 
 *#dtmf #badbunny #camaritabadbunny #pixmob #debitirarmasfotos #irplus #pixmod*
