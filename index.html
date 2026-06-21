@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PixMob DTMF - Bad Bunny Camera Control</title>
+  <meta name="description" content="Control your PixMob DTMF camera from Bad Bunny concert with Android IR blaster | Controla la camarita DTMF de Bad Bunny con tu celular Android">
+  <meta property="og:title" content="PixMob DTMF - Bad Bunny Camera Control">
+  <meta property="og:description" content="Control your PixMob DTMF camera from Bad Bunny concert with your Android phone. Free irplus file included.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #080810;
+      --deep: #0d0d1a;
+      --violet: #7C3AED;
+      --violet-dim: rgba(124,58,237,0.15);
+      --pink: #FF3CAC;
+      --blue: #38BDF8;
+      --white: #F0EEFF;
+      --muted: #94A3B8;
+      --card: #111124;
+      --border: rgba(124,58,237,0.25);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* LANGUAGE TOGGLE */
+    .lang-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(8,8,16,0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: center;
+      padding: 10px 16px;
+      gap: 8px;
+    }
+
+    .lang-btn {
+      padding: 6px 20px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .lang-btn.active {
+      background: var(--violet);
+      border-color: var(--violet);
+      color: #fff;
+    }
+
+    /* HERO */
+    .hero {
+      padding: 60px 24px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -100px; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 400px;
+      background: radial-gradient(ellipse, rgba(124,58,237,0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .badge-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 24px;
+      border-radius: 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      position: relative;
+      animation: pulse-glow 2.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(255,60,172,0.3), 0 0 60px rgba(124,58,237,0.15); }
+      50% { box-shadow: 0 0 40px rgba(255,60,172,0.6), 0 0 100px rgba(124,58,237,0.3); }
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(28px, 7vw, 48px);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--white) 0%, var(--blue) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 340px;
+      margin: 0 auto 32px;
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: linear-gradient(135deg, var(--violet), var(--pink));
+      color: #fff;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .download-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    .tested-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 12px;
+      color: var(--muted);
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 5px 14px;
+    }
+
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; }
+
+    /* SECTIONS */
+    .section {
+      padding: 0 20px 48px;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--violet);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* STEPS */
+    .step {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .step-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--violet-dim);
+      border: 1px solid var(--violet);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--violet);
+      flex-shrink: 0;
+    }
+
+    .step-content h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--white);
+    }
+
+    .step-content p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .step-content code {
+      background: rgba(124,58,237,0.15);
+      color: var(--blue);
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+
+    /* STATUS TABLE */
+    .status-list { list-style: none; }
+
+    .status-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 14px;
+    }
+
+    .status-item:last-child { border-bottom: none; }
+
+    .badge-ok {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(74,222,128,0.1);
+      color: #4ade80;
+      border: 1px solid rgba(74,222,128,0.2);
+      white-space: nowrap;
+    }
+
+    .badge-no {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(248,113,113,0.1);
+      color: #f87171;
+      border: 1px solid rgba(248,113,113,0.2);
+      white-space: nowrap;
+    }
+
+    /* TROUBLESHOOT */
+    .trouble-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+    }
+
+    .trouble-q {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--pink);
+      margin-bottom: 4px;
+    }
+
+    .trouble-a {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* NOTE BOX */
+    .note {
+      background: rgba(56,189,248,0.06);
+      border: 1px solid rgba(56,189,248,0.2);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 13px;
+      color: #7dd3fc;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    /* DIVIDER */
+    .lang-divider {
+      text-align: center;
+      padding: 32px 20px;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      position: relative;
+    }
+
+    .lang-divider::before, .lang-divider::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 35%;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .lang-divider::before { left: 10px; }
+    .lang-divider::after { right: 10px; }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 32px 20px 48px;
+      color: var(--muted);
+      font-size: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer a { color: var(--violet); text-decoration: none; }
+
+    .tags {
+      margin-top: 12px;
+      font-size: 11px;
+      color: rgba(148,163,184,0.5);
+    }
+
+    /* LANGUAGE SECTIONS */
+    .lang-section { display: none; }
+    .lang-section.active { display: block; }
+  </style>
+</head>
+<body>
+
+  <!-- LANGUAGE TOGGLE -->
+  <div class="lang-bar">
+    <button class="lang-btn active" onclick="setLang('en')">🇬🇧 English</button>
+    <button class="lang-btn" onclick="setLang('es')">🇪🇸 Español</button>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="badge-icon">💡</div>
+    <p class="eyebrow">PixMob DTMF · Bad Bunny</p>
+    <h1>Control your concert camera with your phone</h1>
+    <p class="subtitle">Android only · IR blaster required · irplus app · Free</p>
+    <a class="download-btn" href="pixmob_remote.irplus" download>
+      ⬇ Download pixmob_remote.irplus
+    </a>
+    <br>
+    <span class="tested-badge">
+      <span class="dot"></span>
+      Tested · Xiaomi 14T Pro · Bad Bunny DTMF badge
+    </span>
+  </div>
+
+  <!-- ENGLISH SECTION -->
+  <div class="lang-section active" id="lang-en">
+
+    <div class="section">
+      <p class="section-title">Requirements</p>
+      <div class="note">
+        You need an Android phone with a <strong>built-in IR blaster</strong>. Most Xiaomi, Redmi and Poco phones have one. iPhone is not supported with this method.
+        <br><br>Not sure? Search your phone model + "IR blaster" online.
+      </div>
+    </div>
+
+    <div class="section">
+      <p class="section-title">How to set it up</p>
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Check your batteries</h3>
+          <p>Most PixMob badges use <code>CR2032</code> batteries. If you got it at a concert more than a few days ago they may be dead. Look for a small cover on the back you can open with a coin.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Install irplus</h3>
+          <p>Download irplus from the Play Store. On Xiaomi go to Settings → Apps → irplus → Battery → <strong>No restrictions</strong>. Also enable all permissions.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Download and import the file</h3>
+          <p>Download <code>pixmob_remote.irplus</code> using the button above. Save it to your Downloads folder. Open irplus → tap ⋮ → Import remote → select the file.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>Control your badge</h3>
+          <p>Point the <strong>top edge</strong> of your phone at the badge from 20-50cm. Tap any color button. Use <strong>fade variants</strong> for longer glow. Tap PROGRAM first, then a color for a persistent effect.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <p class="section-title">What works</p>
+      <ul class="status-list" style="background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;">
+        <li class="status-item"><span>Single color flash</span><span class="badge-ok">✓ Works</span></li>
+        <li class="status-item"><span>Color fade effects</span><span class="badge-ok">✓ Works</span></li>
+        <li class="status-item"><span>PROGRAM command</span><span class="badge-ok">✓ Works</span></li>
+        <li class="status-item"><span>Autonomous loop (blinks on its own)</span><span class="badge-no">Not yet</span></li>
+      </ul>
+      <br>
+      <div class="note">
+        The autonomous loop seen after concerts is pre-programmed by the venue's professional IR transmitters during the show. That exact signal has not been publicly captured yet for the Bad Bunny badge. If you attended with a Flipper Zero, sharing the IR capture would help the community.
+      </div>
+    </div>
+
+    <div class="section">
+      <p class="section-title">Troubleshooting</p>
+
+      <div class="trouble-item">
+        <p class="trouble-q">"Invalid or no device" when importing</p>
+        <p class="trouble-a">Make sure the file extension is <code>.irplus</code> not <code>.xml</code> or <code>.txt</code>.</p>
+      </div>
+      <div class="trouble-item">
+        <p class="trouble-q">Badge does not respond at all</p>
+        <p class="trouble-a">Check batteries first (CR2032). Make sure you are pointing the top edge of your phone at the badge.</p>
+      </div>
+      <div class="trouble-item">
+        <p class="trouble-q">Badge turns off when I send a command</p>
+        <p class="trouble-a">You sent a reset command. Wait 10-15 seconds then try a color button again.</p>
+      </div>
+      <div class="trouble-item">
+        <p class="trouble-q">Colors fade too quickly</p>
+        <p class="trouble-a">Use the fade variant buttons or tap repeatedly to keep it lit.</p>
+      </div>
+      <div class="trouble-item">
+        <p class="trouble-q">irplus crashes on Xiaomi</p>
+        <p class="trouble-a">Settings → Apps → irplus → Battery → No restrictions.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SPANISH SECTION -->
+  <div class="lang-section" id="lang-es">
+
+    <div class="section">
+      <p class="section-title">Requisitos</p>
+      <div class="note">
+        Necesitas un celular Android con <strong>infrarrojo integrado</strong>. La mayoría de Xiaomi, Redmi y Poco lo tienen. iPhone no es compatible con este método.
+        <br><br>¿No sabes si lo tienes? Busca el modelo de tu celular + "IR blaster" en Google.
+      </div>
+    </div>
+
+    <div class="section">
+      <p class="section-title">Cómo configurarlo</p>
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Verifica la batería</h3>
+          <p>La mayoría de camaritas PixMob usan baterías <code>CR2032</code>. Si la recibiste en el concierto hace más de unos días puede estar agotada. Busca una tapa pequeña en la parte trasera que puedas abrir con una moneda.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Instala irplus</h3>
+          <p>Descarga irplus desde Play Store. En Xiaomi ve a Ajustes → Apps → irplus → Batería → <strong>Sin restricciones</strong>. También activa todos los permisos.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Descarga e importa el archivo</h3>
+          <p>Descarga <code>pixmob_remote.irplus</code> con el botón de arriba. Guárdalo en tu carpeta de Descargas. Abre irplus → toca ⋮ → Importar control → selecciona el archivo.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>Controla tu camarita</h3>
+          <p>Apunta el <strong>borde superior</strong> de tu celular a la camarita desde 20-50cm. Toca cualquier botón de color. Usa los botones <strong>fade</strong> para que dure más. Toca PROGRAM primero y luego un color para efecto persistente.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <p class="section-title">Qué funciona</p>
+      <ul class="status-list" style="background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;">
+        <li class="status-item"><span>Color fijo</span><span class="badge-ok">✓ Funciona</span></li>
+        <li class="status-item"><span>Efectos fade</span><span class="badge-ok">✓ Funciona</span></li>
+        <li class="status-item"><span>Botón PROGRAM</span><span class="badge-ok">✓ Funciona</span></li>
+        <li class="status-item"><span>Loop autónomo (parpadea sola)</span><span class="badge-no">Aún no</span></li>
+      </ul>
+      <br>
+      <div class="note">
+        El loop autónomo que ves después del concierto es pre-programado por los transmisores IR profesionales del venue durante el show. Esa señal exacta no ha sido capturada públicamente todavía para la camarita de Bad Bunny. Si fuiste al concierto con un Flipper Zero, compartir la captura IR ayudaría mucho a la comunidad.
+      </div>
+    </div>
+
+    <div class="section">
+      <p class="section-title">Solución de problemas</p>
+
+      <div class="trouble-item">
+        <p class="trouble-q">"Dispositivo inválido" al importar</p>
+        <p class="trouble-a">Verifica que el archivo termine en <code>.irplus</code> y no en <code>.xml</code> o <code>.txt</code>.</p>
+      </div>
+      <div class="trouble-item">
+        <p class="trouble-q">La camarita no responde para nada</p>
+        <p class="trouble-a">Revisa las baterías (CR2032). Asegúrate de apuntar el borde superior del celular a la camarita.</p>
+      </div>
+      <div class="trouble-item">
+        <p class="trouble-q">La camarita se apaga al enviar un comando</p>
+        <p class="trouble-a">Enviaste un comando de reset. Espera 10-15 segundos y prueba un color de nuevo.</p>
+      </div>
+      <div class="trouble-item">
+        <p class="trouble-q">Los colores duran poco</p>
+        <p class="trouble-a">Usa los botones con "fade" para mayor duración o toca varias veces seguidas.</p>
+      </div>
+      <div class="trouble-item">
+        <p class="trouble-q">irplus se cierra solo en Xiaomi</p>
+        <p class="trouble-a">Ajustes → Apps → irplus → Batería → Sin restricciones.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>
+      Based on <a href="https://github.com/danielweidman/pixmob-ir-reverse-engineering" target="_blank">danielweidman/pixmob-ir-reverse-engineering</a>
+      · Join <a href="https://discord.gg/UYqTjC7xp3" target="_blank">PIXMOD Discord</a>
+      · <a href="https://github.com/YOUR_USERNAME/pixmob-dtmf-bad-bunny" target="_blank">GitHub Repo</a>
+    </p>
+    <p style="margin-top:8px;">© 2026 YOUR_NAME · CC BY 4.0</p>
+    <p class="tags">#dtmf #badbunny #camaritabadbunny #pixmob #debitirarmasfotos #irplus</p>
+  </footer>
+
+  <script>
+    function setLang(lang) {
+      document.querySelectorAll('.lang-section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('lang-' + lang).classList.add('active');
+      document.querySelector(`[onclick="setLang('${lang}')"]`).classList.add('active');
+    }
+  </script>
+
+</body>
+</html>
