@@ -169,7 +169,7 @@ iOS is not supported with this method. iPhone has no built-in IR blaster. A poss
 
 - Color codes / Códigos de colores: [danielweidman/pixmob-ir-reverse-engineering](https://github.com/danielweidman/pixmob-ir-reverse-engineering)
 - PROGRAM button: community irplus files for Taylor Swift EOC badges
-- Real-world testing / Pruebas reales: [@YOUR_GITHUB_USERNAME](https://github.com/LiminalEcho)
+- Real-world testing / Pruebas reales: [@LiminalEcho](https://github.com/LiminalEcho)
 - PIXMOD Discord: `discord.gg/UYqTjC7xp3`
 ---
 
